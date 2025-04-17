@@ -4,8 +4,9 @@ pragma solidity ^0.8.26;
 
 contract TemporaryLogic {
     address public owner;
-
-    constructor(address _owner) {
+    uint256 public value;
+    constructor(address _owner, uint256 _value) {
+        value = _value;
         owner = _owner;
     }
 

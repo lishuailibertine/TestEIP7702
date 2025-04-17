@@ -7,7 +7,8 @@ async function main() {
 
   // 1. 获取临时合约字节码
   const Temp = await ethers.getContractFactory("TemporaryLogic");
-  const tempBytecode = Temp.bytecode;
+  const deployTx = await Temp.getDeployTransaction(sender.address, 1); // ✅ 加 await
+  const tempBytecode = deployTx.data;
 
   // 2. 部署目标合约（模拟目标）
   const Target = await ethers.getContractFactory("TargetContract");
