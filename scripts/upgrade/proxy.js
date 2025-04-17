@@ -24,6 +24,9 @@ async function main() {
 
   const valueAfter = await upgraded.getValue();
   console.log("✅ 升级后 getValue() =", valueAfter.toString()); // 应该是 20
+
+  const signer = (await ethers.getSigners())[0]; // 当前账户，发交易时用
+  new ethers.Contract()
 }
 
 main()
