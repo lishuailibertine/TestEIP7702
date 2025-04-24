@@ -10,7 +10,6 @@ async function main() {
   const [signer] = await ethers.getSigners();
   const chainId = (await ethers.provider.getNetwork()).chainId;
   const signerAddress = await signer.getAddress();
-
   // 部署临时合约
   const Temp = await ethers.getContractFactory("LogicAccount");
   const target = await Temp.deploy();
@@ -20,9 +19,9 @@ async function main() {
   const value = 0;
   const data = "0x";
   const accessList = [];
-
+  
   // Step 1: 构造授权元组
-  const authNonce = await ethers.provider.getTransactionCount(signerAddress)+ 1;
+  const authNonce = await ethers.provider.getTransactionCount(signerAddress);
   const authMessage = rlp.encode([chainId, logicAddress, authNonce]);
   const msgHash = keccak256(
     Buffer.concat([Buffer.from("05", "hex"), authMessage])
@@ -49,7 +48,7 @@ async function main() {
   const maxFeePerGas = feeData.maxFeePerGas;
   const unsignedTxPayload = [
     chainId,
-    txNonce,
+    0,
     maxPriorityFeePerGas,
     maxFeePerGas,
     gasLimit,
