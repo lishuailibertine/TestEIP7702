@@ -4,7 +4,7 @@ const { ethers } = hre;
 
 async function main() {
   const [sender] = await ethers.getSigners();
-
+ 
   // 1. 获取临时合约字节码
   const Temp = await ethers.getContractFactory("TemporaryLogic");
   const deployTx = await Temp.getDeployTransaction(sender.address, 1); // ✅ 加 await

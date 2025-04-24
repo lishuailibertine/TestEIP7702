@@ -14,7 +14,7 @@ async function main() {
 
   console.log("🚀 开始升级到 V2...");
   const MyContractV2 = await ethers.getContractFactory("MyContractV2");
-  const upgraded = await upgrades.upgradeProxy(await instance.getAddress(), MyContractV2);
+  const upgraded = await upgrades.upgradeProxy(await instance.getAddress(), MyContractV2, [11]);
   await upgraded.waitForDeployment();
   console.log("✅ 升级完成，地址（应相同）：", await upgraded.getAddress());
 
@@ -24,9 +24,6 @@ async function main() {
 
   const valueAfter = await upgraded.getValue();
   console.log("✅ 升级后 getValue() =", valueAfter.toString()); // 应该是 20
-
-  const signer = (await ethers.getSigners())[0]; // 当前账户，发交易时用
-  new ethers.Contract()
 }
 
 main()
