@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 
 async function main() {
   // 获取必要的工具函数（v6 直接从 ethers 导出）
-  const { keccak256, getBytes, Signature, JsonRpcProvider, FetchRequest } =
+  const { keccak256, getBytes, Signature} =
     ethers;
 
   const [signer] = await ethers.getSigners();
@@ -12,13 +12,13 @@ async function main() {
   const signerAddress = await signer.getAddress();
 
   const logicAddress = "0x0B6CF3840d0E8DB89bd4088D55A612361983F11D";
-  const gasLimit = 1000000;
+  const gasLimit = 800000;
   const value = 0;
   const data = "0x";
   const accessList = [];
 
   // Step 1: 构造授权元组
-  const authNonce = await ethers.provider.getTransactionCount(signerAddress);
+  const authNonce = await ethers.provider.getTransactionCount(signerAddress)+ 1;
   const authMessage = rlp.encode([chainId, logicAddress, authNonce]);
   const msgHash = keccak256(
     Buffer.concat([Buffer.from("05", "hex"), authMessage])
@@ -40,8 +40,9 @@ async function main() {
 
   // Step 2: 构造交易
   const txNonce = await ethers.provider.getTransactionCount(signerAddress);
-  const maxPriorityFeePerGas = 1;
-  const maxFeePerGas = 1e9;
+  const feeData = await ethers.provider.getFeeData();
+  const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
+  const maxFeePerGas = feeData.maxFeePerGas;
   const unsignedTxPayload = [
     chainId,
     txNonce,
