@@ -10,7 +10,7 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "deploy": "npx hardhat run scripts/eip-7702/sendEIP7702Tx.js --network sepolia",
+    "deploy": "npx hardhat run scripts/eip-7702/sendEIP7702Tx.js --network localhost",
     "verify": "hardhat verify --network localhost",
     "remixed": "remixd -s . --remix-ide https://remix.ethereum.org "
   },

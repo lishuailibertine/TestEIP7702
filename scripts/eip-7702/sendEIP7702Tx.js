@@ -11,7 +11,11 @@ async function main() {
   const chainId = (await ethers.provider.getNetwork()).chainId;
   const signerAddress = await signer.getAddress();
 
-  const logicAddress = "0x0B6CF3840d0E8DB89bd4088D55A612361983F11D";
+  // 部署临时合约
+  const Temp = await ethers.getContractFactory("LogicAccount");
+  const target = await Temp.deploy();
+  await target.waitForDeployment();
+  const logicAddress = await target.getAddress();
   const gasLimit = 800000;
   const value = 0;
   const data = "0x";
