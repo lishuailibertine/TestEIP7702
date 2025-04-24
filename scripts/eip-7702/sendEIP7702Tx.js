@@ -4,20 +4,26 @@ const { ethers } = require("hardhat");
 
 async function main() {
   // 获取必要的工具函数（v6 直接从 ethers 导出）
-  const { keccak256, getBytes, Signature} =
+  const { keccak256, getBytes, Signature, Interface} =
     ethers;
 
   const [signer] = await ethers.getSigners();
   const chainId = (await ethers.provider.getNetwork()).chainId;
   const signerAddress = await signer.getAddress();
   // 部署临时合约
-  const Temp = await ethers.getContractFactory("LogicAccount");
-  const target = await Temp.deploy();
-  await target.waitForDeployment();
-  const logicAddress = await target.getAddress();
-  const gasLimit = 800000;
+  // const Temp = await ethers.getContractFactory("LogicAccount");
+  // const target = await Temp.deploy();
+  // await target.waitForDeployment();
+  // const logicAddress = await target.getAddress();
+  const logicAddress = "0x0b6cf3840d0e8db89bd4088d55a612361983f11d";
+  const gasLimit = 500000;
   const value = 0;
-  const data = "0x";
+  //调用 LogicAccount的 doSomething 对应的encodedata
+  const iface = new Interface([
+    "function doSomething(string)"
+  ]);
+  
+  const data = iface.encodeFunctionData("doSomething", ["hello 7702"]);
   const accessList = [];
   
   // Step 1: 构造授权元组
